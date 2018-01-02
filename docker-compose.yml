@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  bash:
+    build:
+      context: docker
+      dockerfile: Dockerfile
+    working_dir: /opt/project
+    entrypoint: bash
+    volumes:
+      - ./:/opt/project
+  phpunit:
+    build:
+      context: docker
+      dockerfile: Dockerfile
+    entrypoint: phpunit.sh
+    volumes:
+      - ./:/opt/project
+    working_dir: /opt/project
