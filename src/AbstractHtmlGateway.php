@@ -8,12 +8,12 @@
  * Lightweight html to/from entity gateway.
  */
 
-namespace Html;
+namespace JStormes\HtmlGateway;
 
 use Zend\Hydrator\ClassMethods;
 use Psr\Http\Message\ServerRequestInterface;
 
-class AbstractHtmlGateway
+abstract class AbstractHtmlGateway
 {
     /**
      * Relative path to template file.

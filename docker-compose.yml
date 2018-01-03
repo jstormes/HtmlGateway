@@ -1,6 +1,12 @@
 version: '3'
 
 services:
+
+  # A bash terminal into the docker container.  This is useful for running
+  # command line utilities.
+  #
+  # To use this from the command line, run the following from the same directory this file is in:
+  #   docker-compose run bash
   bash:
     build:
       context: docker
@@ -9,11 +15,33 @@ services:
     entrypoint: bash
     volumes:
       - ./:/opt/project
+    environment:
+      XDEBUG_CONFIG: remote_host=docker.for.win.localhost remote_port=9001
+#      XDEBUG_CONFIG: remote_host=docker.for.mac.localhost remote_port=9001
+
+  # A quick way to run phpunit from a command line.
+  # To use this from the command line, run the following from the same directory this file is in:
+  #    docker-compose run phpunit
   phpunit:
     build:
       context: docker
       dockerfile: Dockerfile
     entrypoint: phpunit.sh
+    volumes:
+      - ./:/opt/project
+    working_dir: /opt/project
+    environment:
+      XDEBUG_CONFIG: remote_host=docker.for.win.localhost remote_port=9001
+#      XDEBUG_CONFIG: remote_host=docker.for.mac.localhost remote_port=9001
+
+  # A quick way to run the composer install inside the container.
+  # To use this from the command line, run the following from the same directory this file is in:
+  #   docker-compose run build
+  build:
+    build:
+      context: docker
+      dockerfile: Dockerfile
+    entrypoint: composer_install.sh
     volumes:
       - ./:/opt/project
     working_dir: /opt/project

@@ -6,10 +6,10 @@
  * Time: 10:55 AM
  */
 
-namespace App\Library\HtmlGateway;
+namespace JStormes\HtmlGateway;
 
 
-class AbstractViewHelper
+abstract class AbstractViewHelper
 {
-
+    public abstract function execute($name, $arguments, $parent);
 }
