@@ -10,6 +10,12 @@ use PHPUnit\Framework\TestCase;
 
 class HtmlGatewayTest extends TestCase
 {
+    public function setUp()
+    {
+        // All test are relative to our script directory.
+        chdir(__DIR__);
+    }
+
     public function testConstructor()
     {
         $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway();
@@ -64,13 +70,92 @@ class HtmlGatewayTest extends TestCase
     public function testSetData()
     {
         $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway();
-        $htmlGateway->setData('this is a test');
-
+        $obj=$htmlGateway->setData('this is a test');
+        $this->assertEquals($obj,$htmlGateway,'setData() is no longer fluent');
         $this->assertAttributeContains('this is a test','data',$htmlGateway);
-
         $this->assertSame('this is a test',$htmlGateway->data());
 
     }
+
+    public function testRender()
+    {
+        $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway('templates/simple.phtml');
+        $htmlGateway->render('some data');
+        $this->assertSame('some data', $htmlGateway->data());
+
+        $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway('templates/simple.phtml');
+        $htmlGateway->setData('this is a test');
+        $htmlGateway->render();
+        $this->assertSame('this is a test',$htmlGateway->data());
+
+        $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway('templates/simple.phtml');
+        $fileText = file_get_contents('templates/simple.phtml');
+        $testText = $htmlGateway->render();
+        $this->assertSame($fileText,$testText);
+
+        $this->expectException(\Exception::class);
+        $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway('Not found');
+        $htmlGateway->render();
+
+    }
+
+    public function testAddToSection()
+    {
+        $htmlGatewayTest =  new \JStormes\HtmlGateway\HtmlGateway('templates/simple.phtml');
+        $htmlGatewayTest->setData('this is a test');
+        $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway('templates/test-section.phtml');
+        $htmlGateway->addToSection('test',$htmlGatewayTest);
+        $gateways = $this->getObjectAttribute($htmlGateway,'gateways');
+        $this->assertContains($htmlGatewayTest,$gateways['test']);
+        $this->assertSame('this is a test', $htmlGatewayTest->data());
+
+        $htmlGatewayTest =  new \JStormes\HtmlGateway\HtmlGateway('templates/simple.phtml');
+        $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway('templates/test-section.phtml');
+        $htmlGateway->addToSection('test',$htmlGatewayTest,'this is a test');
+        $gateways = $this->getObjectAttribute($htmlGateway,'gateways');
+        $this->assertContains($htmlGatewayTest,$gateways['test']);
+        $this->assertSame('this is a test', $htmlGatewayTest->data());
+
+    }
+
+    public function testSection()
+    {
+        $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway('templates/simple.phtml');
+        $htmlSection = new \JStormes\HtmlGateway\HtmlGateway('templates/test-section.phtml');
+        $htmlGateway->addToSection('test',$htmlSection);
+        $text = $htmlGateway->section('test');
+        $fileText = file_get_contents('templates/test-section.phtml');
+        $this->assertSame($text,$fileText);
+
+    }
+
+    public function testEscape()
+    {
+        $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway('templates/simple.phtml');
+        $text = $htmlGateway->escape('this is a test &');
+        $this->assertSame($text,'this is a test &amp;');
+
+    }
+
+    public function testE()
+    {
+        $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway('templates/simple.phtml');
+        $text = $htmlGateway->e('this is a test &');
+        $this->assertSame($text,'this is a test &amp;');
+    }
+
+    public function testPrototype()
+    {
+        $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway();
+        $obj=$htmlGateway->setPrototype('this is a test');
+        $this->assertEquals($obj,$htmlGateway,'setPrototype() is no longer fluent');
+        $this->assertAttributeContains('this is a test','data',$htmlGateway);
+        $this->assertSame('this is a test',$htmlGateway->data());
+
+    }
+
+    
+
 
 
 }

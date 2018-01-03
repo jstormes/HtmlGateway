@@ -12,7 +12,6 @@ class DemoTest extends TestCase
 {
     public function testDemo()
     {
-        echo "CWD: ".getcwd();
         $this->assertEquals(0, 0);
     }
 }
