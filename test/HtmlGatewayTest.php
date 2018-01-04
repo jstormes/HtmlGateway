@@ -6,7 +6,10 @@
  * Time: 11:47 AM
  */
 
+require_once ('Entity/dummyEntity.php');
+
 use PHPUnit\Framework\TestCase;
+
 
 class HtmlGatewayTest extends TestCase
 {
@@ -97,6 +100,10 @@ class HtmlGatewayTest extends TestCase
         $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway('Not found');
         $htmlGateway->render();
 
+        $this->expectException(\Exception::class);
+        $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway('templates/bad-template.phtml');
+        $htmlGateway->render();
+
     }
 
     public function testAddToSection()
@@ -154,8 +161,50 @@ class HtmlGatewayTest extends TestCase
 
     }
 
-    
+    public function testFetch()
+    {
+        $data = new dummyEntity();
 
+        $request = $this->getMockBuilder('Psr\Http\Message\ServerRequestInterface')->getMock();
+        $request->method('getParsedBody')->willReturn(['action'=>'save','field1'=>'value1']);
+
+        $htmlGateway = new JStormes\HtmlGateway\HtmlGateway();
+        $htmlGateway->setPrototype($data);
+
+        $data = $htmlGateway->fetch($request);
+
+        $this->assertSame($data->getField1(),'value1');
+    }
+
+    public function testProcess_Save()
+    {
+        $data = new dummyEntity();
+        $request = $this->getMockBuilder('Psr\Http\Message\ServerRequestInterface')->getMock();
+        $request->method('getParsedBody')->willReturn(['action'=>'save','field1'=>'value1']);
+        $request->method('getMethod')->willReturn('POST');
+        $htmlGateway = new JStormes\HtmlGateway\HtmlGateway();
+        $htmlGateway->setPrototype($data);
+        $data = $htmlGateway->process($request);
+        $this->assertSame($data->getField1(),'value1');
+        $this->assertTrue($data->saved);
+        $this->assertFalse($data->deleted);
+
+    }
+
+    public function testProcess_Delete()
+    {
+        $data = new dummyEntity();
+        $request = $this->getMockBuilder('Psr\Http\Message\ServerRequestInterface')->getMock();
+        $request->method('getParsedBody')->willReturn(['action'=>'delete','field1'=>'value1']);
+        $request->method('getMethod')->willReturn('POST');
+        $htmlGateway = new JStormes\HtmlGateway\HtmlGateway();
+        $htmlGateway->setPrototype($data);
+        $data = $htmlGateway->process($request);
+        $this->assertSame($data->getField1(),'value1');
+        $this->assertFalse($data->saved);
+        $this->assertTrue($data->deleted);
+
+    }
 
 
 }

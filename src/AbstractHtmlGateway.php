@@ -117,6 +117,7 @@ abstract class AbstractHtmlGateway
         }
 
         try {
+            /** @var integer $level */
             $level = ob_get_level();
             ob_start();
             include $this->template;
@@ -145,7 +146,7 @@ abstract class AbstractHtmlGateway
      * @param null $data
      * @return $this
      */
-    public function addToSection(string $section, $gateway, $data=null){
+    public function addToSection(string $section, AbstractHtmlGateway $gateway, $data=null){
 
         if ($data!==null) {
             $gateway->setData($data);
@@ -236,21 +237,17 @@ abstract class AbstractHtmlGateway
      *
      * @param $request
      * @param string $buttonName
-     * @param null $data
      * @return mixed
      */
-    public function process($request, $buttonName='action', $data=null){
-
-        if ($data!==null){
-            $this->setData($data);
-        }
+    public function process(ServerRequestInterface $request, string $buttonName='action')
+    {
 
         $form = $request->getParsedBody();
 
         if (isset($form[$buttonName])) {
             if ($request->getMethod() === 'POST') {
 
-                $this->data = $this->fetch($request, $data);
+                $this->data = $this->fetch($request);
 
                 if ($form[$buttonName] === 'save') {
                     $this->data->save();

@@ -1,7 +1,14 @@
 <phpunit bootstrap="vendor/autoload.php">
     <testsuites>
-        <testsuite name="money">
+        <testsuite name="HtmlGateway">
             <directory>test</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="false">
+            <directory suffix=".php">src/</directory>
+            <exclude>
+            </exclude>
+        </whitelist>
+    </filter>
 </phpunit>
