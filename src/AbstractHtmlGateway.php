@@ -45,7 +45,7 @@ abstract class AbstractHtmlGateway
     /**
      * AbstractHtmlGateway constructor.
      * @param string|null $template
-     * @param array $helpers
+     * @param InterfaceViewHelper array $helpers
      */
     public function __construct(string $template = null, $helpers = [])
     {
@@ -77,7 +77,7 @@ abstract class AbstractHtmlGateway
      * @param $helper
      * @return $this
      */
-    public function addHelper($name,$helper) {
+    public function addHelper(string $name,InterfaceViewHelper $helper) {
         $this->helpers[$name] = $helper;
         return $this;
     }

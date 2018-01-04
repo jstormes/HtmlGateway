@@ -32,8 +32,8 @@ class HtmlGatewayTest extends TestCase
         $this->assertAttributeNotEmpty("template",$htmlGateway);
         $this->assertAttributeEmpty("helpers",$htmlGateway);
 
-        $helpers['simple1'] = $this->getMockForAbstractClass('\JStormes\HtmlGateway\AbstractViewHelper');
-        $helpers['simple2'] = $this->getMockForAbstractClass('\JStormes\HtmlGateway\AbstractViewHelper');
+        $helpers['simple1'] = $this->getMockForAbstractClass('\JStormes\HtmlGateway\InterfaceViewHelper');
+        $helpers['simple2'] = $this->getMockForAbstractClass('\JStormes\HtmlGateway\InterfaceViewHelper');
         $htmlGateway = new \JStormes\HtmlGateway\HtmlGateway("somefile.phtml",$helpers);
         $this->assertTrue(is_object($htmlGateway));
         $this->assertAttributeNotEmpty("template",$htmlGateway);
@@ -43,7 +43,7 @@ class HtmlGatewayTest extends TestCase
     public function testMagicMethodHelper()
     {
 
-        $helperMock['test'] = $this->getMockForAbstractClass('\JStormes\HtmlGateway\AbstractViewHelper');
+        $helperMock['test'] = $this->getMockForAbstractClass('\JStormes\HtmlGateway\InterfaceViewHelper');
         $helperMock['test']->method('execute')
             ->willReturn('simple test');
 
@@ -58,7 +58,7 @@ class HtmlGatewayTest extends TestCase
 
     public function testAddHelper()
     {
-        $helperMock = $this->getMockForAbstractClass('\JStormes\HtmlGateway\AbstractViewHelper');
+        $helperMock = $this->getMockForAbstractClass('\JStormes\HtmlGateway\InterfaceViewHelper');
         $helperMock->method('execute')
             ->willReturn('simple test');
 

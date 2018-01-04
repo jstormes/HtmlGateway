@@ -9,7 +9,7 @@
 namespace JStormes\HtmlGateway;
 
 
-abstract class AbstractViewHelper
+interface InterfaceViewHelper
 {
-    public abstract function execute($name, $arguments, $parent);
+    public function execute($name, $arguments, $parent);
 }
