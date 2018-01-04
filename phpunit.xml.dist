@@ -7,8 +7,6 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="false">
             <directory suffix=".php">src/</directory>
-            <exclude>
-            </exclude>
         </whitelist>
     </filter>
 </phpunit>
