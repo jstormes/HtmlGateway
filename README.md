@@ -1,4 +1,12 @@
 # HtmlGateway
-Html Gateway library
+A simple Html Gateway library.
 
-Tagging 0.0.1
+
+GitHub Page:
+https://github.com/jstormes/HtmlGateway
+
+Packagist Page:
+https://packagist.org/packages/jstormes/html-gateway
+
+
+
