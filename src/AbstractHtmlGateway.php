@@ -262,4 +262,9 @@ abstract class AbstractHtmlGateway
         return $this->data;
     }
 
+    public function __toString()
+    {
+        return $this->render();
+    }
+
 }
