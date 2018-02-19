@@ -26,7 +26,7 @@ services:
     build:
       context: docker
       dockerfile: Dockerfile
-    entrypoint: phpunit.sh
+    entrypoint: /opt/project/docker/bin/phpunit.sh
     volumes:
       - ./:/opt/project
     working_dir: /opt/project
