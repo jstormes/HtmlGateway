@@ -1,0 +1,30 @@
+
+$TemplateGatewahy = new \jstormes\TempalteGateway();
+
+file.phtml:                                      Data:
++--------------------------------------+
+| First Name: <=$this->data['fname']?> |         $record['fname'] = 'Jim';
+| Last Name: <=$this->data['lname']?>  |         $record['lname'] = 'Stormes';
++--------------------------------------+                  |
+                |                                         |
+                +-------------------------+           +---+
+                                          |           |
+                                          v           v
+     $output=$TemplateGateway->render('file.phtml',$record); 
+        |
+        |
+        v
++--------------------------------+
+| First Name: Jim                |
+| Last Name: Stormes             |
++--------------------------------+  
+
+Post back:
+
+
+TemplateGateway – on one side you have an abject or an array of data, on the other side you have a template file to be
+populated with data.  A TemplateGateway takes data and a template and returns the text of the template populated with
+the data.  Templates may be reclusive including one template inside another.   The TemplateGateway also accepts helpers
+that can be used to format data inside the templates.
+
+                      

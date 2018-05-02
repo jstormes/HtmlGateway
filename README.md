@@ -13,6 +13,19 @@ inside the text.  Templates can be included inside templates allowing the text t
 familiar, it is.  This is basically what PHP does.  As this template is inside a PHP object it has it’s "scope"
 set to `$this->`.  It would be very bad practice to use anything outside the scope directly in a template.
 
+## Command Line Docker Quick Start:
+
+* Make sure you have Docker and Docker-Compose installed on your workstation.
+    * [https://www.docker.com/community-edition](https://www.docker.com/community-edition)
+* Run composer install:
+    * BASH (Linux/OS X)    `docker run --rm -it -v $(pwd):/app composer install`
+    * PowerShell (Windows) `docker run --rm -it -v ${pwd}:/app composer install`
+    * CMD (Old Windows)    `docker run --rm -it -v %cd%:/app composer install`
+* Run PhpUnit:
+    * BASH (Linux/OS X)    `docker run --rm -it -v $(pwd):/app jstormes/phpunit -c phpunit.xml.dist`
+    * PowerShell (Windows) `docker run --rm -it -v ${pwd}:/app jstormes/phpunit -c phpunit.xml.dist`
+    * CMD (Old Windows)    `docker run --rm -it -v %cd%:/app jstormes/phpunit -c phpunit.xml.dist`
+
 ### Example of instantiating a template:
 
 ### Example of including a template inside a template:

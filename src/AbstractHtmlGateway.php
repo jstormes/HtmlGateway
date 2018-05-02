@@ -262,6 +262,13 @@ abstract class AbstractHtmlGateway
         return $this->data;
     }
 
+    /**
+     * Special method for casing object to a string.
+     *
+     * @return string
+     * @throws \Exception
+     * @throws \Throwable
+     */
     public function __toString()
     {
         return $this->render();
