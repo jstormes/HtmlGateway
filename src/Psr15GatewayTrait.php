@@ -15,13 +15,14 @@ use Psr\Http\Message\ServerRequestInterface;
 trait Psr15GatewayTrait
 {
     private $hydrator = null;
-    
+
     /**
      * @param $Prototype
      * @return $this
      */
     public function setPrototype($Prototype)
     {
+        $this->hydrator = new ClassMethods();
         $this->setData($Prototype);
         return $this;
     }
