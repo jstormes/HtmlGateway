@@ -3,10 +3,10 @@ A simple Html Gateway library.
 
 ## Usage
 
-  PHP is itself a templating engine.  Rather than reinvent the wheel, I used PHP itself as the templating language and
-wrapped it in design patterns I liked.  This package is that design pattern packaged in a nice composer format.
+  PHP is itself a template engine.  Rather than reinvent the wheel, I used PHP itself as the template language and
+wrapped it in design patterns I liked.  This package is my favorite design pattern packaged in a nice composer format.
 
-  There are two concepts in this pattern, templates and helpers.  
+  There are three core concepts in this pattern, templates, helpers, and post back processing.  
 
   A template is nothing more than an arbitrary text file wrapped in a PHP class.  This lets us use PHP interspersed
 inside the text.  Templates can be included inside templates allowing the text to be built in blocks.  If this sounds

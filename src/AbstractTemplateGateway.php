@@ -1,19 +1,15 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: james.s
- * Date: 12/20/2017
- * Time: 2:08 PM
- *
- * Lightweight html to/from entity gateway.
+ * User: jstormes
+ * Date: 5/2/2018
+ * Time: 10:48 AM
  */
 
 namespace JStormes\HtmlGateway;
 
-use Zend\Hydrator\ClassMethods;
-use Psr\Http\Message\ServerRequestInterface;
 
-abstract class AbstractHtmlGateway
+class AbstractTemplateGateway
 {
     /**
      * Relative path to template file.
@@ -38,21 +34,13 @@ abstract class AbstractHtmlGateway
     private $data;
 
     /**
-     * @var null|ClassMethods
-     */
-    private $hydrator = null;
-
-    /**
      * AbstractHtmlGateway constructor.
      * @param string|null $template
-     * @param InterfaceViewHelper array $helpers
      */
     public function __construct(string $template = null, $helpers = [])
     {
         $this->template = $template;
         $this->helpers  = $helpers;
-
-        $this->hydrator = new ClassMethods();
     }
 
     /**
@@ -214,70 +202,4 @@ abstract class AbstractHtmlGateway
     {
         return $this->render();
     }
-
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// Everything below this line is post back processing and needs to be moved out into it's own class!!!!!!!!!
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///
-    ///
-
-    /**
-     * @param $Prototype
-     * @return $this
-     */
-    public function setPrototype($Prototype)
-    {
-        $this->setData($Prototype);
-        return $this;
-    }
-
-    /**
-     * @param ServerRequestInterface $request
-     * @return mixed
-     */
-    public function fetch(ServerRequestInterface $request)
-    {
-        $formData = $request->getParsedBody();
-
-        $data = clone($this->data);
-
-        $this->hydrator->hydrate($formData, $data);
-
-        $this->data = $data;
-
-        return $data;
-    }
-
-    /**
-     * Process a PSR-7 request from browser. $data MUST support record pattern.
-     * Use prototype pattern for priming data.
-     *
-     * @param $request
-     * @param string $buttonName
-     * @return mixed
-     */
-    public function process(ServerRequestInterface $request, string $buttonName='action')
-    {
-
-        $form = $request->getParsedBody();
-
-        if (isset($form[$buttonName])) {
-            if ($request->getMethod() === 'POST') {
-
-                $this->data = $this->fetch($request);
-
-                if ($form[$buttonName] === 'save') {
-                    $this->data->save();
-                }
-
-                if ($form[$buttonName] === 'delete') {
-                    $this->data->delete();
-                }
-            }
-        }
-
-        return $this->data;
-    }
-
 }

@@ -21,6 +21,7 @@ file.phtml:                                      Data:
 
 Post back:
 
+Post back is not not part of template, should separate templating from post back processing.
 
 TemplateGateway – on one side you have an abject or an array of data, on the other side you have a template file to be
 populated with data.  A TemplateGateway takes data and a template and returns the text of the template populated with
